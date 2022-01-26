@@ -13,7 +13,7 @@ export type TaskType = {
 }
 export type FilterValuesType = "all" | "active" | "completed"
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -26,11 +26,12 @@ type TaskStateType = {
 function App() {
     const toDoListsId1 = v1()
     const toDoListsId2 = v1()
+
+
     const [toDoLists, setToDoLists] = useState<TodoListType[]>([
         {id: toDoListsId1, title: "What to learn?", filter: "all"},
         {id: toDoListsId2, title: "What to drink?", filter: "all"}
     ])
-
     const [tasks, setTasks] = useState<TaskStateType>({
         [toDoListsId1]: [
             {id: v1(), title: "HTML", isDone: true},
@@ -43,12 +44,14 @@ function App() {
             {id: v1(), title: "VINE", isDone: false},
         ]
     })
+
+
+
     const addTodoList = (title: string) => {
         const newTodoListID = v1()
         setToDoLists([...toDoLists, {id: newTodoListID, title, filter: "all"}])
         setTasks({...tasks, [newTodoListID]: []})
     }
-
     const changeTodoListFilter = (filter: FilterValuesType, toDoListsId: string) => {
         setToDoLists(toDoLists.map(tl => tl.id === toDoListsId ? {...tl, filter} : tl))
     }
@@ -60,6 +63,8 @@ function App() {
         tasks[toDoListsId] = [...tasks[toDoListsId], {id: v1(), title, isDone: false}] // если свойство title и ключ одинаковые то можно писать один title
         setTasks({...tasks})
     }
+
+
     const changeTaskStatus = (id: string, isDone: boolean, toDoListsId: string) => {
         tasks[toDoListsId] = tasks[toDoListsId].map(t => t.id === id ? {...t, isDone: isDone} : t)
         setTasks({...tasks})
@@ -68,7 +73,6 @@ function App() {
         tasks[toDoListsId] = tasks[toDoListsId].map(t => t.id === id ? {...t, title} : t)
         setTasks({...tasks})
     }
-
     const removeTodoList = (toDoListsId: string) => {
         setToDoLists(toDoLists.filter(tl => tl.id !== toDoListsId))
         const tasksCopy = {...tasks}
@@ -78,6 +82,8 @@ function App() {
     const changeTodoListTitle = (title:string, toDoListsId:string) => {
         setToDoLists(toDoLists.map(tl => tl.id === toDoListsId ? {...tl, title} : tl))
     }
+
+
 
     const getTasksForRender = (filter: FilterValuesType, tasks: TaskType[]) => {
         switch (filter) {
